@@ -9,6 +9,6 @@ def version() {
     return v
 }
 
-def getContainerName(String name) {
-    return name + "-" + env.BUILD_NUMBER + "-" + env.BUILD_ID
+def getContainerName() {
+    return env.BUILD_TAG.replace('%2F', '-')
 }
