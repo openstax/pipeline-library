@@ -16,13 +16,23 @@
 def call(Map parameters = [:]) {
     testingDomain = parameters.testingDomain
     if (!testingDomain) {
-        error "You need to supply the domain to test against. Hint: give me the DOCKER_HOST value"
+        error "You need to supply the domain to test against. Hint: something like staged.cnx.org"
     }
 
     // Create a location to store the xml-report
     sh "mkdir -p ${env.WORKSPACE}/xml-report"
     // Set up an environment variable list
-    sh "${env.WORKSPACE}/.jenkins/gen_env_list.py ${testingDomain} > ${env.WORKSPACE}/env.list"
+    host = testingDomain
+    new File("${env.WORKSPACE}/env.list").withWriter { out ->
+        out.println "DISABLE_DEV_SHM_USAGE=true"
+        out.println "HEADLESS=true"
+        out.println "NO_SANDBOX=true"
+        out.println "PRINT_PAGE_SOURCE_ON_FAILURE=true"
+        out.println "ARCHIVE_BASE_URL=http://archive-${host}"
+        out.println "WEBVIEW_BASE_URL=http://${host}"
+        out.println "LEGACY_BASE_URL=http://legacy-${host}"
+        out.println "NEB_ENV=${host}"
+    }
 
     /**
      * The following doesn't work, but it's close to working. Maybe somebody will find a way to fix it.
