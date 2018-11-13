@@ -67,10 +67,10 @@ def call(Map parameters = [:]) {
         // Report test results
         junit "xml-report/report.xml"
 
-        if (currentBuild.currentResult == 'SUCCESS') {
-            currentBuild.result = 'SUCCESS'
-        } else {
-            slackSend(channel: '#cnx', color: 'warning', message: "A recent change to '${env.GIT_URL}@${env.GIT_BRANCH}' is causing functional test failures. For details see ${env.BUILD_URL}")
-        }
+        // if (currentBuild.currentResult == 'SUCCESS') {
+        //     currentBuild.result = 'SUCCESS'
+        // } else {
+        //     slackSend(channel: '#cnx', color: 'warning', message: "A recent change to '${env.GIT_URL}@${env.GIT_BRANCH}' is causing functional test failures. For details see ${env.BUILD_URL}")
+        // }
     }
 }
