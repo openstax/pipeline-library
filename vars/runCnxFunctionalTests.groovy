@@ -13,16 +13,26 @@
  *                                 (e.g. tcp://cluster.cnx.org:2375)
  */
 
+final dockerDomainMapping = [
+    'tcp://cc1.cnx.org:2375': 'staged.cnx.org'
+]
+final envDomainMapping = [
+    'staged.cnx.org': 'staged'
+]
+
 def call(Map parameters = [:]) {
-    testingDomain = parameters.testingDomain
-    if (!testingDomain) {
+    dockerHost = parameters.dockerHost
+    if (!dockerHost) {
         error "You need to supply the domain to test against. Hint: something like staged.cnx.org"
+    } else if (!dockerDomainMapping.containsKey(dockerHost)) {
+        error "The dockerHost you provided is not one this library is aware of: ${dockerHost}"
     }
 
     // Create a location to store the xml-report
     sh "mkdir -p ${env.WORKSPACE}/xml-report"
     // Set up an environment variable list
-    host = testingDomain
+    host = dockerDomainMapping.get(dockerHost)
+    envName = envDomainMapping.get(host)
     new File("${env.WORKSPACE}/env.list").withWriter { out ->
         out.println "DISABLE_DEV_SHM_USAGE=true"
         out.println "HEADLESS=true"
@@ -31,7 +41,7 @@ def call(Map parameters = [:]) {
         out.println "ARCHIVE_BASE_URL=http://archive-${host}"
         out.println "WEBVIEW_BASE_URL=http://${host}"
         out.println "LEGACY_BASE_URL=http://legacy-${host}"
-        out.println "NEB_ENV=${host}"
+        out.println "NEB_ENV=${envName}"
     }
 
     /**
