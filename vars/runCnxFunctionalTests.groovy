@@ -22,7 +22,18 @@ def call(Map parameters = [:]) {
     // Create a location to store the xml-report
     sh "mkdir -p ${env.WORKSPACE}/xml-report"
     // Set up an environment variable list
-    sh "${env.WORKSPACE}/.jenkins/gen_env_list.py ${testingDomain} > ${env.WORKSPACE}/env.list"
+    // FIXME: temporary hardcoded domain added to allow tests to run
+    sh """cat << EOF > ${env.WORKSPACE}/env.list
+DISABLE_DEV_SHM_USAGE=true
+HEADLESS=true
+NO_SANDBOX=true
+PRINT_PAGE_SOURCE_ON_FAILURE=true
+ARCHIVE_BASE_URL=http://archive-staged.cnx.org
+WEBVIEW_BASE_URL=http://staged.cnx.org
+LEGACY_BASE_URL=http://legacy-staged.cnx.org
+NEB_ENV=staged
+EOF
+"""
 
     /**
      * The following doesn't work, but it's close to working. Maybe somebody will find a way to fix it.
