@@ -21,10 +21,25 @@ class VersionInfoTest extends GroovyTestCase {
     // Tests
     //
 
-    void testSemanticVersion() {
+    void testValidSemanticVersion() {
         def tag = 'v1.2.3'
         def pipeline = new TagBuildPipelineScript(tag)
         def expectedVersion = tag.drop(1)
+
+        def version = new VersionInfo(pipeline).version()
+
+        assert expectedVersion == version
+        // and we create the environment variable for good measure
+        assert expectedVersion == pipeline.env.REAL_VERSION
+    }
+
+    /**
+      * Check that non-semantic versioned tags are not modified
+      */
+    void testTextTagName() {
+        def tag = 'verglous-minubus'
+        def pipeline = new TagBuildPipelineScript(tag)
+        def expectedVersion = tag
 
         def version = new VersionInfo(pipeline).version()
 
