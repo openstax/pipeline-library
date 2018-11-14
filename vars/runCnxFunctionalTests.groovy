@@ -13,14 +13,15 @@
  *                                 (e.g. tcp://cluster.cnx.org:2375)
  */
 
-final dockerDomainMapping = [
-    'tcp://cc1.cnx.org:2375': 'staged.cnx.org'
-]
-final envDomainMapping = [
-    'staged.cnx.org': 'staged'
-]
-
 def call(Map parameters = [:]) {
+
+    final dockerDomainMapping = [
+        'tcp://cc1.cnx.org:2375': 'staged.cnx.org'
+    ]
+    final envDomainMapping = [
+        'staged.cnx.org': 'staged'
+    ]
+
     dockerHost = parameters.dockerHost
     if (!dockerHost) {
         error "You need to supply the domain to test against. Hint: something like staged.cnx.org"
