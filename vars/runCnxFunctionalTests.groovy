@@ -15,10 +15,10 @@
 
 def call(Map parameters = [:]) {
 
-    final dockerDomainMapping = [
+    def dockerDomainMapping = [
         'tcp://cc1.cnx.org:2375': 'staged.cnx.org'
     ]
-    final envDomainMapping = [
+    def envDomainMapping = [
         'staged.cnx.org': 'staged'
     ]
 
@@ -26,7 +26,6 @@ def call(Map parameters = [:]) {
     if (!dockerHost) {
         error "You need to supply the domain to test against. Hint: something like staged.cnx.org"
     } else if (!dockerDomainMapping.containsKey(dockerHost)) {
-        dockerDomainMapping.each{ k, v -> echo "${k}:${v}" }
         error "The dockerHost you provided is not one this library is aware of: ${dockerHost}"
     }
 
