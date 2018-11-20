@@ -81,7 +81,7 @@ EOF
         if (currentBuild.currentResult == 'SUCCESS') {
             currentBuild.result = 'SUCCESS'
         } else {
-            slackSend(channel: '#cnx', color: 'warning', message: "A recent change to '${env.GIT_URL}@${env.GIT_BRANCH}' is causing functional test failures. For details see ${env.BUILD_URL}")
+            slackSend(channel: '#qa-stream', color: 'warning', message: "A recent change to '${env.GIT_URL}@${env.GIT_BRANCH}' is causing functional test failures. For details see ${env.BUILD_URL}")
         }
     }
 }
