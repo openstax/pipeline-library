@@ -69,7 +69,7 @@ EOF
         // Start the testing container
         sh "docker run -d -v ${env.WORKSPACE}/xml-report:/xml-report:rw,z --env-file ${env.WORKSPACE}/env.list --name ${containerName} openstax/cnx-automation:latest"
         // Run the tests
-        sh "docker exec ${containerName} tox -- -m 'webview and not (requires_deployment or requires_varnish_routing or legacy)' --junitxml=/code/report.xml"
+        sh "docker exec ${containerName} tox -- -n 4 -m 'webview and not (requires_deployment or requires_varnish_routing or legacy)' --junitxml=/code/report.xml"
      } finally {
         // Move the report to a location that is both accessible and writable
         sh "docker exec -u root ${containerName} cp /code/report.xml /xml-report"
