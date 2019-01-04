@@ -32,9 +32,9 @@ DISABLE_DEV_SHM_USAGE=true
 HEADLESS=true
 NO_SANDBOX=true
 PRINT_PAGE_SOURCE_ON_FAILURE=true
-ARCHIVE_BASE_URL=http://archive-staged.cnx.org
-WEBVIEW_BASE_URL=http://staged.cnx.org
-LEGACY_BASE_URL=http://legacy-staged.cnx.org
+ARCHIVE_BASE_URL=https://archive-staged.cnx.org
+WEBVIEW_BASE_URL=https://staged.cnx.org
+LEGACY_BASE_URL=https://legacy-staged.cnx.org
 NEB_ENV=staged
 EOF
 """
